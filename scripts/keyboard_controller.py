@@ -15,7 +15,8 @@ motor_brake = 0
 motor_reverse = 49
 motor_idle = 50
 motor_normal = 51
-motor_boost = 80
+motor_shift = 80
+motor_space = 100
 
 # Initialize servo and motor current values
 servo_current_value = servo_straight
@@ -27,7 +28,8 @@ is_reverse = False
 is_left = False
 is_right = False
 is_brake = False
-is_boost = False
+is_shift = False
+is_space = False
 
 def key_change_handler(event):
 	global servo_current_value
@@ -37,16 +39,22 @@ def key_change_handler(event):
 	global is_left
 	global is_right
 	global is_brake
-	global is_boost
+	global is_shift
+	global is_space
 
-	# 'space' is scan_code 57
-
-	# Detect boost
+	# Detect shift
 	if event.scan_code is 42: # 'shift'
 		if event.event_type is keyboard.KEY_DOWN:
-			is_boost = True
+			is_shift = True
 		else:
-			is_boost = False
+			is_shift = False
+
+	# Detect space
+	if event.scan_code is 57: # 'space'
+		if event.event_type is keyboard.KEY_DOWN:
+			is_space = True
+		else:
+			is_space = False
 
 	# Detect motor
 	if event.scan_code is 17: # 'w'
@@ -65,10 +73,12 @@ def key_change_handler(event):
 		else:
 			is_reverse = False
 
-	# Apply motor (and boost)
+	# Apply motor (and shift or space)
 	if is_forward:
-		if is_boost:
-			motor_current_value = motor_boost
+		if is_shift:
+			motor_current_value = motor_shift
+		elif is_space:
+			motor_current_value = motor_space
 		else:
 			motor_current_value = motor_normal
 	elif is_reverse:
