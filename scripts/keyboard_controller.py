@@ -42,21 +42,21 @@ def key_change_handler(event):
 	global is_shift
 	global is_space
 
-	# Detect shift
+	# Detect shift for level one boost
 	if event.scan_code is 42: # 'shift'
 		if event.event_type is keyboard.KEY_DOWN:
 			is_shift = True
 		else:
 			is_shift = False
 
-	# Detect space
+	# Detect space for level two boos (full throttle)
 	if event.scan_code is 57: # 'space'
 		if event.event_type is keyboard.KEY_DOWN:
 			is_space = True
 		else:
 			is_space = False
 
-	# Detect motor
+	# Detect motor control keys
 	if event.scan_code is 17: # 'w'
 		if event.event_type is keyboard.KEY_DOWN:
 			is_forward = True
@@ -88,7 +88,7 @@ def key_change_handler(event):
 	else:
 		motor_current_value = motor_idle
 
-	# Detect servo
+	# Detect servo control keys
 	if event.scan_code is 30: # 'a'
 		if event.event_type is keyboard.KEY_DOWN:
 			is_left = True
