@@ -90,12 +90,12 @@ def key_change_handler(event):
 		motor_current_value = motor_idle
 
 	# Detect servo control keys
-	if event.scan_code is 30: # 'a' for steering left with maximum steering angle
+	if event.scan_code is 30: # 'a' for steering left with maximum angle
 		if event.event_type is keyboard.KEY_DOWN:
 			is_left = True
 		else:
 			is_left = False
-	elif event.scan_code is 32: # 'd' for steering right with maximum steering angle
+	elif event.scan_code is 32: # 'd' for steering right with maximum angle
 		if event.event_type is keyboard.KEY_DOWN:
 			is_right = True
 		else:
@@ -119,8 +119,9 @@ def publish_data():
 	# Create a fixed rate of 10 times per second
 	rate = rospy.Rate(10)
 
-	# Publish the current motor and servo control values 10 times per second for
-	# as long as the node is running. Both values are included in one UInt16 value.
+	# Publish the current motor and servo control values
+	# 10 times per second for as long as the node is running.
+	# Both values are included in one UInt16 value.
 	while not rospy.is_shutdown():
 		publisher.publish( (motor_current_value << 8) | servo_current_value )
 		rate.sleep()
